@@ -1,0 +1,32 @@
+@charset "utf-8";
+{
+position: relative;
+
+	
+}
+.poem{
+  font-family: "LXGW WenKai TC", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poem {
+  font-family: "Ma Shan Zheng", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*
+.poem {
+  position:absolute;
+  color:white;
+  font-size:19px;
+  font-weight:550;
+  color: rgba (0,0,0,0.1);
+  letter-spacing:4px;
+  padding-left:15px;
+  padding-top:20px;
+  margin-bottom:0px;
+  
+}
+*/
