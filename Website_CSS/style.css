@@ -1,0 +1,48 @@
+/* 設定全域字型 */
+body {
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    padding-top: 56px; /* 為了避免被 Fixed Navbar 擋住內容 */
+}
+
+/* Hero Section 自定義樣式 */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* 佔滿整個視窗高度 */
+}
+
+/* 圓形大頭照樣式調整 */
+.profile-img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; /* 保持圖片比例不變形 */
+    border: 5px solid #fff;
+}
+
+/* 章節標題微調 */
+h2 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+/* 在標題下方加一條線 */
+h2::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 3px;
+    background-color: #0d6efd; /* Bootstrap Primary Color */
+    bottom: 0;
+    left: 25%;
+}
+
+/* 調整卡片懸浮效果 */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* 滑鼠移上去會稍微浮起 */
+}
