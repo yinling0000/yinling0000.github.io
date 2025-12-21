@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>期末小遊戲</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #222; font-family: Arial, sans-serif; }
+        #game-area { width: 100vw; height: 100vh; position: relative; }
+        
+        /* 玩家 (控制的方塊) */
+        #player {
+            width: 50px; height: 50px; background: #00bcd4;
+            position: absolute; bottom: 20px; left: 50%;
+            transform: translateX(-50%); border-radius: 5px;
+        }
+
+        /* 掉落物 (金幣) */
+        .coin {
+            width: 30px; height: 30px; background: gold;
+            position: absolute; border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        /* 分數板 */
+        #scoreboard {
+            position: absolute; top: 10px; left: 10px;
+            color: white; font-size: 24px; z-index: 10;
+        }
+
+        /* ⚠️ 評分關鍵：右上角必須有你的名字 */
+        #student-name {
+            position: absolute; top: 10px; right: 20px;
+            color: rgba(255, 255, 255, 0.7); font-size: 18px; z-index: 10;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 5px 10px; border-radius: 5px;
+        }
+
+        /* 遊戲結束畫面 */
+        #game-over {
+            display: none; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); color: white; text-align: center;
+        }
+        button { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="game-area">
+        <div id="scoreboard">Score: 0</div>
+        <div id="student-name">設計者：蔡宜哲</div>
+        <div id="player"></div>
+        <div id="game-over">
+            <h1>Game Over</h1>
+            <button onclick="location.reload()">再玩一次</button>
+        </div>
+    </div>
+
+    <script>
+        const player = document.getElementById('player');
+        const gameArea = document.getElementById('game-area');
+        const scoreBoard = document.getElementById('scoreboard');
+        let score = 0;
+        let isGameOver = false;
+        let playerX = window.innerWidth / 2;
+
+        // 滑鼠/觸控移動控制
+        gameArea.addEventListener('mousemove', (e) => {
+            if(isGameOver) return;
+            playerX = e.clientX;
+            player.style.left = playerX + 'px';
+        });
+
+        // 生成金幣
+        function createCoin() {
+            if (isGameOver) return;
+            const coin = document.createElement('div');
+            coin.classList.add('coin');
+            coin.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+            coin.style.top = '-30px';
+            gameArea.appendChild(coin);
+
+            let coinInterval = setInterval(() => {
+                if (isGameOver) { clearInterval(coinInterval); return; }
+                
+                let top = parseInt(coin.style.top || -30);
+                coin.style.top = (top + 5) + 'px'; // 下落速度
+
+                // 碰撞偵測
+                const playerRect = player.getBoundingClientRect();
+                const coinRect = coin.getBoundingClientRect();
+
+                if (
+                    coinRect.bottom >= playerRect.top &&
+                    coinRect.top <= playerRect.bottom &&
+                    coinRect.right >= playerRect.left &&
+                    coinRect.left <= playerRect.right
+                ) {
+                    // 接到了
+                    score += 10;
+                    scoreBoard.innerText = 'Score: ' + score;
+                    coin.remove();
+                    clearInterval(coinInterval);
+                } else if (top > window.innerHeight) {
+                    // 沒接到
+                    coin.remove();
+                    clearInterval(coinInterval);
+                }
+            }, 20);
+        }
+
+        // 每 0.5 秒生成一個金幣
+        setInterval(createCoin, 500);
+
+    </script>
+</body>
+</html>
